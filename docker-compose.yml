@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+    - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: tiago
+      DB_PASSWORD: tiago@123
+      DB_NAME: sizeBay
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    environment:
+      POSTGRES_USER: tiago
+      POSTGRES_PASSWORD: tiago@123
+      POSTGRES_DB: sizeBay
+    ports:
+    - "5432:5432"
+    networks:
+    - app-network
+networks:
+  app-network:

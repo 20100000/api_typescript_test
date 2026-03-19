@@ -1,0 +1,1 @@
+const createQuery = 'INSERT INTO shortenURLs(url, shortCode, createdAt, updatedAt) VALUES($1, $2, now(), now()) RETURNING *';
