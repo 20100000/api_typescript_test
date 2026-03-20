@@ -5,7 +5,7 @@ Typescript with Node.js<br>
 Framework Express<br>
 PostgreSQL for database<br>
 Swagger for documentation<br>
-Docker compose for containerization<br>
+Framework Docker compose for containerization<br>
 <h3>Ports used</h3>
 5432 Database<br>
 3000 Back-end application<br>
