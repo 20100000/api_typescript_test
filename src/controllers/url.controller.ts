@@ -80,7 +80,7 @@ export const updateShort = async (req: Request, res: Response) => {
     const { shortCode } = req.params;
     const { url } = req.body;
     try {
-        if(!url) {
+        if (!url) {
             throw new Error('Bad Request url undefined', { cause: { statusCode: 400 } });
         }
         const result = await pool.query(updateShortQuery, [url, shortCode]);
