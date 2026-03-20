@@ -14,7 +14,7 @@ const createShortCode = async (url: any) => {
 export const createShort = async (req: Request, res: Response) => {
     const { url } = req.body;
     try {
-        if(!url) {
+        if (!url) {
             throw new Error('Bad Request url undefined', { cause: { statusCode: 400 } });
         }
         const shortCode = await createShortCode(url);
