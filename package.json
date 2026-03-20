@@ -2,6 +2,7 @@
   "name": "projectTest",
   "version": "1.0.0",
   "type": "module",
+  "author": "Tiago Honorio <tiago_honorio2010@hotmail.com.com> (https://github.com/20100000)",
   "description": "",
   "main": "src/server.js",
   "scripts": {
