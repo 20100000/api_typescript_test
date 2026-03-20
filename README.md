@@ -15,7 +15,7 @@ Docker compose for containerization<br>
     git clone git@github.com:20100000/api_typescript_test.git<br/>
     cd api_typescript_test
 </pre>
-<h4>2° Download the image and start containers, MySQL, and Node.js.</h4>
+<h4>2° Download the image and start containers, PostgreSQL, and Node.js.</h4>
 <pre>
     docker-compose up --build
 </pre>
