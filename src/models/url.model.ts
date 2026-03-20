@@ -1,5 +1,3 @@
-import {getShortStats} from "../controllers/url.controller.js";
-
 export const createShortQuery = 'INSERT INTO shortenURLs(url, shortCode, createdAt, updatedAt) VALUES($1, $2, now(), now()) RETURNING *';
 export const createStatisticQuery = 'INSERT INTO statistics(shortCode, accessCount, createdAt, updatedAt) VALUES($1, 0, now(), now()) RETURNING *';
 export const getStatisticStatsQuery = 'SELECT url.*, s.accessCount FROM shortenURLs AS url INNER JOIN statistics as s ON url.shortCode = s.shortCode WHERE url.shortCode=$1';
