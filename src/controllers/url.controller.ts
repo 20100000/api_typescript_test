@@ -1,21 +1,25 @@
 import { Request, Response } from 'express';
 import { pool } from '../config/database.js';
 import { customAlphabet } from 'nanoid';
+import {
+    createShortQuery, createStatisticQuery, getStatisticStatsQuery, updateShortQuery,
+    updateStatisticsQuery, deleteShortQuery, deleteStatisticQuery
+} from '../models/url.model.js'
 
+const createShortCode = async (url: any) => {
+    const generationShortCode = await customAlphabet(url, 6);
+    return generationShortCode();
+}
 
 export const createShort = async (req: Request, res: Response) => {
     const { url } = req.body;
-    if(!url) {
-        res.status(400).json({
-            message: 'Bad Request url undefined',
-        });
-    }
-    const generationShortCode = customAlphabet(url, 6); 
-    const shortCode = generationShortCode();
     try {
-         const result = await pool.query('INSERT INTO shortenURLs(url, shortCode, createdAt, updatedAt) VALUES($1, $2, now(), now()) RETURNING *',
-            [url, shortCode]);
-        await pool.query('INSERT INTO statistics(shortCode, accessCount, createdAt, updatedAt) VALUES($1, 0, now(), now()) RETURNING *', [shortCode]); 
+        if(!url) {
+            throw new Error('Bad Request url undefined', { cause: { statusCode: 400 } });
+        }
+        const shortCode = await createShortCode(url);
+        const result = await pool.query(createShortQuery, [url, shortCode]);
+        await pool.query(createStatisticQuery, [shortCode]);
         res.status(201).json({
             result: result.rows[0],
         });
@@ -26,13 +30,12 @@ export const createShort = async (req: Request, res: Response) => {
             });
         }
     }
-   
 };
 
 export const getShortStats = async (req: Request, res: Response) => {
     const { shortCode } = req.params;
     try {
-        const result = await pool.query('SELECT url.*, s.accessCount FROM shortenURLs AS url INNER JOIN statistics as s ON url.shortCode = s.shortCode WHERE url.shortCode=$1', [shortCode]);
+        const result = await pool.query(getStatisticStatsQuery, [shortCode]);
         if (!result.rows[0]) {
             throw new Error('Resource not found', { cause: { statusCode: 404 } });
         } else {
@@ -42,7 +45,7 @@ export const getShortStats = async (req: Request, res: Response) => {
         }    
     } catch (err) {
         if (err instanceof Error) {
-            res.status(res.statusCode).json({
+            res.status(404).json({
                 message: err.message,
             });
         }
@@ -53,10 +56,10 @@ export const getShortStats = async (req: Request, res: Response) => {
 export const getShort = async (req: Request, res: Response) => {
     const { shortCode } = req.params;
     try {
-        let result = await pool.query('SELECT url.*, s.accessCount FROM shortenURLs AS url INNER JOIN statistics as s ON url.shortCode = s.shortCode WHERE url.shortCode=$1', [shortCode]);
+        let result = await pool.query(getStatisticStatsQuery, [shortCode]);
         if (result.rows[0]) {
             result.rows[0].accesscount = result.rows[0].accesscount + 1;
-            await pool.query('UPDATE statistics SET accessCount=$1, updatedAt=now() WHERE shortCode=$2 RETURNING *',[result.rows[0].accesscount, shortCode]);
+            await pool.query(updateStatisticsQuery, [result.rows[0].accesscount, shortCode]);
             delete result.rows[0].accesscount;
         } else {
             throw new Error('Resource not found', { cause: { statusCode: 404 } }); 
@@ -66,7 +69,7 @@ export const getShort = async (req: Request, res: Response) => {
         });
     } catch (err) {
         if (err instanceof Error) {
-            res.status(res.statusCode).json({
+            res.status(404).json({
                 message: err.message,
             });
         }
@@ -77,16 +80,20 @@ export const updateShort = async (req: Request, res: Response) => {
     const { shortCode } = req.params;
     const { url } = req.body;
     try {
-        const result = await pool.query('UPDATE shortenURLs SET url=$1, updatedAt=now() WHERE shortCode=$2 RETURNING *',[url, shortCode]);
-        if (result.rows[0]) {
-            throw new Error('Resource not found', { cause: { statusCode: 404 } }); 
+        if(!url) {
+            throw new Error('Bad Request url undefined', { cause: { statusCode: 400 } });
         }
-        res.status(200).json({
-            result: result.rows[0],
-        });
+        const result = await pool.query(updateShortQuery, [url, shortCode]);
+        if (!result.rows[0]) {
+            throw new Error('Resource not found', { cause: { statusCode: 404 } }); 
+        } else {
+            res.status(200).json({
+                result: result.rows[0],
+            });
+        }
     } catch (err) {
         if (err instanceof Error) {
-            res.status(res.statusCode).json({
+            res.status(404).json({
                 message: err.message,
             });
         }
@@ -96,11 +103,15 @@ export const updateShort = async (req: Request, res: Response) => {
 export const deleteShort= async (req: Request, res: Response) => {
     const { shortCode } = req.params;
     try {
-        await pool.query('DELETE FROM shortenURLs WHERE shortCode=$1', [shortCode]);
+        const result = await pool.query(deleteStatisticQuery, [shortCode]);
+        if (result.rowCount == 0) {
+            throw new Error('Resource not found', { cause: { statusCode: 404 } });
+        }
+        await pool.query(deleteShortQuery, [shortCode]);
         res.status(200).json({ message: "Resource deleted successfully" });
     } catch (err) {
         if (err instanceof Error) {
-            res.status(res.statusCode).json({
+            res.status(404).json({
                 message: err.message,
             });
         }
