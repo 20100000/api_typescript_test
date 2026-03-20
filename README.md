@@ -1,5 +1,5 @@
 <h1>Test URL Shortening Service</h1>
-<p>This project object to be a programming test for the company SizeBay, developed by candidate Tiago.</p>
+<p>This project object to be a programming test for the company SizeBay, developed by candidate Tiago Honorio.</p>
 <h3>Technologies used in the project</h3>
 Typescript with Node.js<br>
 Framework Express<br>
@@ -55,3 +55,4 @@ commands:
 
 <h4>3° View Swagger documentation</h4>
 <pre>http://localhost:3000/api-docs/</pre>
+Mail: tiago_honorio2010@hotmail.com
