@@ -26,7 +26,7 @@ The command below in docker-compose.yml will create tables and add items.
 If that doesn't work, add it via the SGDB ex: DBeaver.<br>
 Login:
 <pre>
-      B_HOST: localhost
+      DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: tiago
       DB_PASSWORD: tiago@123
