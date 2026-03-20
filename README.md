@@ -2,7 +2,7 @@
 <p>This project object to be a programming test for the company SizeBay, developed by candidate Tiago.</p>
 <h3>Technologies used in the project</h3>
 Typescript with Node.js<br>
-framework Express<br>
+Framework Express<br>
 PostgreSQL for database<br>
 Swagger for documentation<br>
 Docker compose for containerization<br>
@@ -22,7 +22,7 @@ Docker compose for containerization<br>
 check containers command.
 <pre>docker ps</pre>
 The command below in docker-compose.yml will create tables and add items.
-<p>volumes: - ./init.sql:/docker-entrypoint-initdb.d/init.sql</p>
+<pre>volumes: - ./init.sql:/docker-entrypoint-initdb.d/init.sql</pre>
 If that doesn't work, add it via the SGDB ex: DBeaver.<br>
 Login:
 <pre>
