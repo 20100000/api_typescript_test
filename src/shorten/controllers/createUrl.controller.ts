@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { pool } from '../../config/database.js';
 import { customAlphabet } from 'nanoid';
-import {
-    createShortQuery, createStatisticQuery } from '../models/url.model.js'
+import { createShortQuery, createStatisticQuery } from '../models/url.model.js'
 
 const createShortCode = async (url: any) => {
     const generationShortCode = await customAlphabet(url, 6);
