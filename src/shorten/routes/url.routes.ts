@@ -1,11 +1,8 @@
 import { Router } from 'express';
-import {
-createShort,
-getShort,
-getShortStats,
-updateShort,
-deleteShort
-} from '../controllers/url.controller.js';
+import { createShort } from '../controllers/createUrl.controller.js';
+import { deleteShort } from '../controllers/deleteUrl.controller.js';
+import { updateShort } from '../controllers/updateUrl.controller.js';
+import { getShort, getShortStats } from '../controllers/getUrl.controller.js';
 
 const router = Router();
 

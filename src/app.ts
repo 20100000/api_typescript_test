@@ -1,5 +1,5 @@
 import express from 'express';
-import shortRoutes from './routes/url.routes.js';
+import shortRoutes from './shorten/routes/url.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
