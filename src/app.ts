@@ -1,5 +1,5 @@
 import express from 'express';
-import shortRoutes from './shorten/routes/url.routes.js';
+import shortRoutes from './crawler/routes/app.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
@@ -10,7 +10,7 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Shorten URL API',
+            title: 'Crawler URL API',
             version: '1.0.0'
         }
     },
@@ -19,6 +19,6 @@ const options = {
 
 const swaggerSpec = swaggerJsdoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/shorten', shortRoutes);
+app.use('/crawler', shortRoutes);
 
 export default app;
