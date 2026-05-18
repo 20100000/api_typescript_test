@@ -1,58 +1,107 @@
-<h1>Test URL Shortening Service</h1>
-<p>This project object to be a programming test for the company SizeBay, developed by candidate Tiago Honorio.</p>
-<h3>Technologies used in the project</h3>
-Typescript with Node.js<br>
-Framework Express<br>
-PostgreSQL for database<br>
-Swagger for documentation<br>
-Framework Docker compose for containerization<br>
-<h3>Ports used</h3>
-5432 Database<br>
-3000 Back-end application<br>
-<h3>Example for testing the application</h3>
-<h4>1° Clone the project</h4> 
-<pre>
-    git clone git@github.com:20100000/api_typescript_test.git<br/>
-    cd api_typescript_test
-</pre>
-<h4>2° Download the image and start containers, PostgreSQL, and Node.js.</h4>
-<pre>
-    docker-compose up --build
-</pre>
-check containers command.
-<pre>docker ps</pre>
-The command below in docker-compose.yml will create tables and add items.
-<pre>volumes: - ./init.sql:/docker-entrypoint-initdb.d/init.sql</pre>
-If that doesn't work, add it via the SGDB ex: DBeaver.<br>
-Login:
-<pre>
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: tiago
-      DB_PASSWORD: tiago@123
-      DB_NAME: sizeBay
-</pre>
-commands:
-<pre>
-    CREATE TABLE IF NOT EXISTS shortenURLs (
-        id SERIAL PRIMARY KEY,
-        url VARCHAR(150) UNIQUE NOT NULL UNIQUE,
-        shortCode VARCHAR(150) NOT NULL UNIQUE,
-        createdAt TIMESTAMP NOT NULL,
-        updatedAt TIMESTAMP NOT NULL
-    );
-    CREATE TABLE IF NOT EXISTS statistics (
-        id SERIAL PRIMARY KEY,
-        shortCode VARCHAR(150) NOT NULL UNIQUE,
-        accessCount INT NOT NULL,
-        createdAt TIMESTAMP NOT NULL,
-        updatedAt TIMESTAMP NOT NULL,
-        CONSTRAINT fk_code
-            FOREIGN KEY (shortCode)
-            REFERENCES shortenURLs (shortCode)
-    );
-</pre>
+# 🗺️ URL Shortener Service
 
-<h4>3° View Swagger documentation</h4>
-<pre>http://localhost:3000/api-docs/</pre>
-Mail: tiago_honorio2010@hotmail.com
+![TypeScript](https://shields.io)
+![Node.js](https://shields.io)
+![Express](https://shields.io)
+![PostgreSQL](https://shields.io)
+![Docker](https://shields.io)
+![Swagger](https://shields.io)
+
+Este projeto é uma API REST de um **Serviço de Encurtamento de URLs** com contagem automatizada de estatísticas de acesso. Desenvolvido como teste técnico para a **SizeBay**.
+
+---
+
+## 🚀 Funcionalidades Principais
+
+* 🔗 **Encurtamento de links** com geração de códigos únicos.
+* 📊 **Rastreamento estatístico** de cliques por link encurtado.
+* 🐳 **Ambiente conteinerizado** pronto para rodar com comando único.
+* 📖 **Documentação interativa** para testes rápidos dos endpoints.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+O ecossistema do projeto foi construído utilizando as seguintes ferramentas:
+
+* **Linguagem:** [TypeScript](https://typescriptlang.org) (Tipagem estática segura)
+* **Runtime:** [Node.js](https://nodejs.org) com Framework [Express](https://expressjs.com)
+* **Banco de Dados:** [PostgreSQL](https://postgresql.org) (Armazenamento relacional e integridade de chaves)
+* **Documentação:** [Swagger UI](https://swagger.io) (Interface visual de contratos de API)
+* **Orquestração:** [Docker & Docker Compose](https://docker.com) (Padronização de ambiente)
+
+---
+
+## 📦 Como Executar o Projeto
+
+Certifique-se de ter o [Docker](https://docker.com) instalado na sua máquina antes de iniciar.
+
+### 1. Clonar o Repositório
+```bash
+git clone git@github.com:20100000/api_typescript_test.git
+cd api_typescript_test
+```
+
+### 2. Iniciar os Containers (Aplicação + Banco)
+Execute o comando abaixo para baixar as imagens necessárias, compilar o código TypeScript e iniciar os serviços:
+```bash
+docker-compose up --build
+```
+
+### 3. Verificar o Status
+Em um novo terminal, você pode validar se os ambientes estão saudáveis com o comando:
+```bash
+docker ps
+```
+
+---
+
+## 🗄️ Estrutura e Inicialização do Banco de Dados
+
+Os serviços estão configurados para operar nas seguintes portas locais por padrão:
+* 🖥️ **Back-end Node.js:** `http://localhost:3000`
+* 🐘 **Banco PostgreSQL:** `localhost:5432`
+
+### Inicialização Manual (Opcional)
+Por padrão, o arquivo `docker-compose.yml` mapeia o script `init.sql` para criar o banco de dados automaticamente. Caso precise rodar manualmente via ferramentas como o **DBeaver**, utilize os dados de acesso abaixo:
+
+* **Host:** `localhost`
+* **Porta:** `5432`
+* **Usuário:** `tiago`
+* **Senha:** `tiago@123`
+* **Banco:** `sizeBay`
+
+#### Scripts DDL para Criação de Tabelas:
+```sql
+CREATE TABLE IF NOT EXISTS shortenURLs (
+    id SERIAL PRIMARY KEY,
+    url VARCHAR(150) UNIQUE NOT NULL,
+    shortCode VARCHAR(150) NOT NULL UNIQUE,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS statistics (
+    id SERIAL PRIMARY KEY,
+    shortCode VARCHAR(150) NOT NULL UNIQUE,
+    accessCount INT NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL,
+    CONSTRAINT fk_code FOREIGN KEY (shortCode) REFERENCES shortenURLs (shortCode)
+);
+```
+
+---
+
+## 📖 Documentação da API (Swagger)
+
+Com a aplicação rodando, você pode acessar de forma transparente a documentação interativa de rotas, payloads de envio e exemplos de respostas diretamente pelo navegador:
+
+🔗 **Acesse:** [http://localhost:3000/api-docs/](http://localhost:3000/api-docs/)
+
+---
+
+## ✉️ Contato
+
+Desenvolvido por **Tiago Honorio**  
+📬 Email para contato: [tiago_honorio2010@hotmail.com](mailto:tiago_honorio2010@hotmail.com)
