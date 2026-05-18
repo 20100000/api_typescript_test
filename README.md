@@ -1,11 +1,9 @@
 # 🗺️ URL Shortener Service
 
-![TypeScript](https://shields.io)
-![Node.js](https://shields.io)
-![Express](https://shields.io)
-![PostgreSQL](https://shields.io)
-![Docker](https://shields.io)
-![Swagger](https://shields.io)
+<p align="center">
+  <strong>🗺️ URL Shortener Service</strong><br><br>
+  <strong>TypeScript • Node.js • Express • PostgreSQL • Docker • Swagger</strong>
+</p>
 
 Este projeto é uma API REST de um **Serviço de Encurtamento de URLs** com contagem automatizada de estatísticas de acesso. Desenvolvido como teste técnico para a **SizeBay**.
 
