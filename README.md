@@ -36,7 +36,7 @@ Certifique-se de ter o [Docker](https://docker.com) instalado na sua máquina an
 
 ### 1. Clonar o Repositório
 ```bash
-git clone git@github.com:20100000/api_typescript_test.git
+git clone https://github.com/20100000/api_typescript_test.git
 cd api_typescript_test
 ```
 
